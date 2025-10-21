@@ -1,0 +1,1 @@
+{"root":[{"assemblyName":"Unity.VisualScripting.Core","nameSpace":"Unity.VisualScripting","className":"RuntimeVSUsageUtility","methodName":"RuntimeInitializeOnLoadBeforeSceneLoad","loadTypes":1,"isUnityClass":true},{"assemblyName":"UnityCommandLineParser","nameSpace":"UnityCommandLineParser","className":"CommandLineParser","methodName":"Init","loadTypes":4,"isUnityClass":true}]}

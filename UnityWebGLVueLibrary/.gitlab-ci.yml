@@ -1,0 +1,104 @@
+variables:
+  IMAGE_NAME: $CI_REGISTRY_IMAGE:base
+
+stages:
+  - base-build
+  - build
+  - test
+  - sbom
+  - code-inspection
+  - reporter
+  - prepare
+  - release
+
+
+base-build:
+  stage: base-build
+  tags:
+    - shell
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - export VERSION=$(awk -F\" '/"version":/ {print $4}' package.json)
+    #- code=$(curl -s -o /dev/null -w "%{http_code}" --header "PRIVATE-TOKEN:$API_PASSWORD" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags/${VERSION}")
+    #- >
+    #  if [ $code -eq 200 ]; then
+    #      exit 0
+    #  fi
+    - cd Dockerfiles/Base
+    - cp ../../package.json ./
+    # - cp ../../.npmrc ./
+    - export IMAGE_NAME=$CI_REGISTRY_IMAGE:base-$VERSION
+    - curl --request PUT --header "PRIVATE-TOKEN:$API_PASSWORD" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/variables/IMAGE_NAME" --form "value=${IMAGE_NAME}"
+    - docker build --no-cache --build-arg npm_token=$NPM_TOKEN --pull -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+
+build:
+  image: $IMAGE_NAME
+  stage: build
+  script:
+    - mv /node_modules ${CI_PROJECT_DIR}
+    - npm run format
+    - npm run lint:report
+    - npm run build
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - 'lint_report.html'
+      - dist
+  cache:
+    paths:
+      - dist/
+  dependencies:
+    - base-build
+
+test-unit:
+  image: $IMAGE_NAME
+  stage: test
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  script:
+    - mv /node_modules ${CI_PROJECT_DIR}
+    - npm run test:unit
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - coverage/
+      - junit.xml
+    reports:
+      junit: junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+
+
+prepare_job:
+  stage: prepare
+  rules:
+    - if: '$CI_COMMIT_BRANCH  == "main"'
+    - if: $CI_COMMIT_TAG
+      when: never
+  script:
+    - export VERSION=$(awk -F\" '/"version":/ {print $4}' package.json)
+    - echo "TAG=${VERSION}" > variables.env
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+release_job:
+  stage: release
+  image: gitlab-org/release-cli:latest
+  needs:
+    - job: prepare_job
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH  == "main"'
+    - if: $CI_COMMIT_TAG
+      when: never
+  script:
+    - echo "running release_job for $TAG"
+  release:
+    name: 'Release $TAG'
+    description: './changelog/$TAG.md'
+    tag_name: '$TAG'
+    ref: '$CI_COMMIT_SHA'
+    milestones:
+      - $TAG

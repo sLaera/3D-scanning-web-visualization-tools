@@ -1,0 +1,10 @@
+{
+    "exclude": [
+        "externals/mesh-tools",
+        "externals/PoissonRecon",
+        "externals/surface-reconstruction-benchmark",
+        "externals/virtual_lidar",
+        "externals/xtensor-io",
+        "dataset",
+    ]
+}

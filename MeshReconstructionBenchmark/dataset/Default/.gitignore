@@ -1,0 +1,21 @@
+/scan
+/scan_ply
+/.*.ply
+/.*.off
+/input_unit
+/scaled
+/eval
+/lidar-scan
+/objs
+/resr
+/spsr
+/resr_*
+/spsr_*
+/results
+/bpivot
+bpivot_*
+/scale_space
+/advancing
+advancing_full.csv
+scale_space_full.csv
+/results copy

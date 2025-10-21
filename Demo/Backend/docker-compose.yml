@@ -1,0 +1,29 @@
+services:
+  nestjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - externals-scripts
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - externals-volume:/app/externals/reconstruction/PoissonRecon
+    environment:
+      - NODE_ENV=development
+    command: ["npm", "run", "start:dev"]
+
+  externals-scripts:
+    #This service is used only to create an image used by the nestjs service
+    #It won't be used as a container
+    image: build-externals
+    build:
+      context: ./externals
+      dockerfile: Dockerfile
+    volumes:
+      - externals-volume:/app/externals/reconstruction/PoissonRecon
+
+volumes:
+  externals-volume:

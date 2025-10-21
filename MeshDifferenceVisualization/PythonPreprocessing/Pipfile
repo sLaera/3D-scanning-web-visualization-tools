@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "<2.0.0"
+open3d = "*"
+opencv-python = "*"
+matplotlib = "*"
+libigl = "*"
+pymeshlab = "==2022.2.post4"
+scipy = "*"
+xatlas = "*"
+pyglet = "<2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

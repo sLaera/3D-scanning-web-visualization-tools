@@ -1,0 +1,1 @@
+{'mean_distance_weight': 3, 'radius_w1': 0.1, 'radius_w2': 0.2, 'radius_w3': 2, 'radius_w4': 5}

@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: de3158ae967f27c44a47e8cc588c1efb
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _PointsTex: {instanceID: 0}
+  - _Positions: {instanceID: 0}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
