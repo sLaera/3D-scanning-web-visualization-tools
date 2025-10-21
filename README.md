@@ -47,6 +47,7 @@ The web application consists of:
 - **Upper panel:** real-time Unity simulation of the scanning process, with telemetry data displayed in an accompanying table.
 - **Lower panel:** visualization of the reconstructed mesh and its **heatmap** showing deviations from the reference model.
 
+![alt text](image.png)
 
 ### **2. SyntheticLidarScanning**
 
@@ -64,6 +65,7 @@ The simulator:
 
 The generated point clouds can be used as input for reconstruction algorithm testing.
 
+![alt text](image-1.png)
 
 ### **3. MeshReconstructionBenchmark**
 
@@ -76,6 +78,8 @@ It automates:
 
 The framework supports both standard and custom datasets.  
 Tests were conducted using five well-known reconstruction methods from literature, including geometric (e.g., **BPA**) and variational approaches (**SPSR**, **RESR**, etc.).
+
+![alt text](image-2.png)
 
 **Results summary:**
 - SPSR and RESR produce smoother, more continuous meshes.
@@ -104,11 +108,6 @@ A tool for **visual comparison between reconstructed and reference meshes**, hig
 - Maps distances to a color texture for visualization.
 
 #### **Frontend: Unity Visualization**
-- Custom **WebGL-compatible shader** to interpolate distance textures and generate a smooth heatmap.
-- Functions exposed to Vue for toggling between the original mesh, reconstructed mesh, and heatmap.
-- Efficient **compute shader** implementation avoids performance issues from earlier prototypes.
-
-Example: a missing panel on a satellite would appear as a blue region in the heatmap, indicating missing geometry.
 
 Structure:
 ```
@@ -119,6 +118,13 @@ MeshDifferenceVisualization/
 
 ```
 
+- Custom **WebGL-compatible shader** to interpolate distance textures and generate a smooth heatmap.
+- Functions exposed to Vue for toggling between the original mesh, reconstructed mesh, and heatmap.
+- Efficient **compute shader** implementation avoids performance issues from earlier prototypes.
+
+Example: a missing panel on a satellite would appear as a blue region in the heatmap, indicating missing geometry.
+
+![alt text](image-3.png)
 
 ### **6. UnityWebGLVueLibrary**
 
@@ -150,6 +156,7 @@ A dedicated C# helper class is provided to simplify event publication from Unity
 **Conclusion:** No measurable overhead introduced by the library.  
 It supports multiple Unity instances and efficient event listener management via a **Map-based strategy**, optimal for speed and memory usage.
 
+![alt text](image-4.png)
 
 ## Docker Integration
 
