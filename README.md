@@ -26,6 +26,9 @@ Every tool includes its own dedicated README with setup and usage instructions.
 │
 ├── UnityWebGLVueLibrary/        # Integration library for Unity WebGL in Vue
 │
+├── jsChannelUnityBindingsPackage/        
+│                                # Bindings Unity package for easy communication from Unity to Vue (using the UnityWebGLVueLibrary)
+│
 └── Dockerfile                   # Docker setup for reconstruction and difference tools
 
 ```
@@ -142,8 +145,9 @@ A **TypeScript library** that simplifies the **integration of Unity WebGL builds
   - Invoke Unity functions.
   - Subscribe to Unity events.
 
+#### jsChannelUnityBindingsPackage
 Unity must include `.jslib` files enabling direct access to `GlobalChannel`.  
-A dedicated C# helper class is provided to simplify event publication from Unity scripts.
+A dedicated C# helper class is provided to simplify event publication from Unity scripts in the `jsChannelUnityBindingsPackage` folder.
 
 #### Performance Tests
 | Metric | HTML Page | Vue Library |

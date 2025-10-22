@@ -1,0 +1,7 @@
+{
+  "name": "JsChannelUnityBindings",
+  "version": "1.0.0",
+  "displayName": "JsChannelUnityBindings",
+  "description": "Bindings between Vue unity library and Unity project",
+  "unity": "2024.7",
+}
